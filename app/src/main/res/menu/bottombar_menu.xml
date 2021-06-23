@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    <item
+        android:id="@+id/menuitem_bottombar_home"
+        android:icon="@drawable/ic_new_home"
+        android:title="홈"
+        app:showAsAction="withText"
+        />
+
+    <item
+        android:id="@+id/menuitem_bottombar_back"
+        android:icon="@drawable/ic_left"
+        android:title="이전"
+        app:showAsAction="withText" />
+
+    <item
+        android:id="@+id/menuitem_bottombar_next"
+        android:icon="@drawable/ic_right"
+        android:title="다음"
+        app:showAsAction="withText" />
+
+    <item
+        android:id="@+id/menuitem_bottombar_keyboard"
+        android:icon="@drawable/ic_keyboard"
+        android:title="키보드"
+        app:showAsAction="withText" />
+</menu>
