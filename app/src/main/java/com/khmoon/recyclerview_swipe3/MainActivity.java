@@ -382,11 +382,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     //여기서 중요한것이 끝난시점으로 처리 해야하므로 이때 리스너를 하나 추가해야함
                     // 따라서 밑에 클래스 추가
                 }
-
             }
         });
-
-
 
         // Setup 버튼 처리
 
@@ -1119,6 +1116,8 @@ public void php_CheckServer(boolean oldServerCheck, String svrip) {
                     if (!isDialogMsg) {
                         isDialogMsg = true;
                         dialog_msg(MainActivity.this, DIALOG_SINGLE, "서버확인 성공", "서버주소가 정상입니다.");
+                        php_get_order(9);
+                        php_get_call(9);
                     }
                 } else {
                     Log.e("___php_server_6", "oldServerCheck == isCheckServer");
@@ -1768,8 +1767,8 @@ class NetworkCheckTimer extends TimerTask {
                     }
                 }
                 tvDate.setText(currentDate);
+                Log.d("___NetworkTimer_tvDate", "현재시간: " + currentDate + " / bt: " + bt);
                 tvBattery.setText(bt + "%");
-
 
 //                    if(isChkServer == true) {
 //                        php_get_order(5);
