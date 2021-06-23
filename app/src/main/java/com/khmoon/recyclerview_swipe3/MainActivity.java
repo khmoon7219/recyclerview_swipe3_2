@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     LinearLayout setup;
     LinearLayout main1;
     LinearLayout main2;
+    LinearLayout layout_display;
     ConstraintLayout layout_transparent;
     ConstraintLayout layout_networkstatus;
     TextView tv_networkerror;
@@ -281,6 +282,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
         main1 = findViewById(R.id.layout_main1);
         main2 = findViewById(R.id.layout_main2);
+        layout_display = findViewById(R.id.layout_display);
 
         layout_transparent = findViewById(R.id.layout_transparent);
         layout_networkstatus = findViewById(R.id.layout_networkState);
@@ -414,6 +416,9 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 php_CheckServer(isChkServer, svrip);
                 Log.i("___onCreate", "서버확인 시작");
 
+                php_get_order(10);
+                php_get_call(10);
+
                 layout_transparent.setVisibility(View.VISIBLE);
                 Log.i("____layout_transparent", "layout_transparent (btn_serverip_confirm): 작동");
 
@@ -545,6 +550,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 //        btn_setdata = findViewById(R.id.btn_setdata);
 //        btn_voice = findViewById(R.id.btn_voice);
 
+
+
 //        btn_setdata.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -564,6 +571,18 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 /****  음성인식 시작 기본 세팅 ******/
         speech = SpeechRecognizer.createSpeechRecognizer(this);
         speech.setRecognitionListener(this);
+
+        layout_display.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "ko-KR");
+                recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+                recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
+                recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
+                startActivityForResult(recognizerIntent, REQUEST_CODE);
+            }
+        });
 
 //        btn_voice.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -672,8 +691,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         /******************************************* => 여기까지: Call 표시를 위한 기본 세팅 ******/
 
 /******* DB_Device 에 자료가 있는지 확인 : 없으면 새로운 자료 입력 & 서버 주소 입력창 ******/
-//        db.daoOrder().deleteAll();
-//        db.daoCall().deleteAll();
+        db.daoOrder().deleteAll();
+        db.daoCall().deleteAll();
 
         int device_exist = db.daoDevice().isNotEmpty();
 
@@ -775,6 +794,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     @Override
     protected void onStart() {
         super.onStart();
+
+        tvDate.setText("왜 안나옴?");
 
         if (networkTimer == null ) {
             networkTimer = new Timer();
@@ -977,7 +998,9 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 //                    Item_order ii = adapterOrder.getItem(pos2);
 //
 //                    Log.e("___onActivityResult_테스트", "number: "+ ii.getnNumber() + " / positon: " + pos2 + " / num: " + num);
-
+                    if(num.isEmpty()) {
+                        return;
+                    }
                     if (s.contains("최종완료")) {
                         int pos = adapterCall.getPosition(Integer.valueOf(num));
                         Item_order itm = adapterCall.getItem(pos);
@@ -1854,7 +1877,8 @@ class NetworkCheckTimer extends TimerTask {
     }
 
     public void setWidthMod() {
-        float dp = (xdpi > ydpi) ? ydpi : xdpi;
+//        float dp = (xdpi > ydpi) ? ydpi : xdpi;
+        float dp = 200;
 
         LinearLayout layout_main1 = (LinearLayout) findViewById(R.id.layout_main1);
         LinearLayout.LayoutParams main1_params = (LinearLayout.LayoutParams) layout_main1.getLayoutParams();
@@ -1895,16 +1919,17 @@ class NetworkCheckTimer extends TimerTask {
     }
 
     public void setHeightMod() {
-        float dp = (xdpi > ydpi) ? ydpi : xdpi;
+//        float dp = (xdpi > ydpi) ? ydpi : xdpi;
+        float dp = 200;
 
         LinearLayout layout_main1 = (LinearLayout) findViewById(R.id.layout_main1);
         LinearLayout.LayoutParams main1_params = (LinearLayout.LayoutParams) layout_main1.getLayoutParams();
-        main1_params.weight = 60;
+        main1_params.weight = 40;
         layout_main1.setLayoutParams(main1_params);
 
         LinearLayout layout_main2 = (LinearLayout) findViewById(R.id.layout_main2);
         LinearLayout.LayoutParams main2_params = (LinearLayout.LayoutParams) layout_main2.getLayoutParams();
-        main2_params.weight = 440;
+        main2_params.weight = 60;
         layout_main2.setLayoutParams(main2_params);
 
         LinearLayout layout_main3 = (LinearLayout) findViewById(R.id.layout_display);
@@ -1927,10 +1952,10 @@ class NetworkCheckTimer extends TimerTask {
 
         label_order.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50 * 160 / dp);
         tv_ordernum.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50 * 160 / dp);
-        tv_date.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20 * 160 / dp);
+        tv_date.setTextSize(TypedValue.COMPLEX_UNIT_SP, 8);
         label_call.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50 * 160 / dp);
         tv_callnum.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50 * 160 / dp);
-        tv_battery.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20 * 160 / dp);
+        tv_battery.setTextSize(TypedValue.COMPLEX_UNIT_SP, 8);
 
     }
 

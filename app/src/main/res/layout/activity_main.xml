@@ -19,7 +19,7 @@
             android:id="@+id/layout_main1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="100"
+            android:layout_weight="40"
             android:paddingTop="20dp"
             android:paddingBottom="10dp"
             android:orientation="horizontal"
@@ -60,7 +60,7 @@
                 android:id="@+id/layout_display"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="6"
+                android:layout_weight="10"
                 android:orientation="vertical"
                 android:background="@drawable/button_back_noripple"
                 android:clickable="true" >
@@ -188,7 +188,7 @@
             android:id="@+id/layout_main2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="400"
+            android:layout_weight="60"
             android:orientation="horizontal" >
 
             <androidx.recyclerview.widget.RecyclerView
